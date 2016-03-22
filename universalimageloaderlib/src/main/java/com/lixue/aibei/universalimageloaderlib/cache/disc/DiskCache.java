@@ -12,7 +12,7 @@ import java.io.InputStream;
  * 磁盘缓存接口
  * Created by Administrator on 2016/3/22.
  */
-public interface DiscCache {
+public interface DiskCache {
     /**返回磁盘缓存的根目录**/
     File getDirectory();
     /**返回缓存的图片**/

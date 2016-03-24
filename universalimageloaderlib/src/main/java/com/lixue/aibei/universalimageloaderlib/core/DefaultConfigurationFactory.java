@@ -15,6 +15,7 @@ import com.lixue.aibei.universalimageloaderlib.cache.memory.Impl.LruMemoryCache;
 import com.lixue.aibei.universalimageloaderlib.cache.memory.MemoryCache;
 import com.lixue.aibei.universalimageloaderlib.core.assist.QueueProcessingType;
 import com.lixue.aibei.universalimageloaderlib.core.assist.deque.LIFOLinkBlockingDeque;
+import com.lixue.aibei.universalimageloaderlib.core.decode.ImageDecoder;
 import com.lixue.aibei.universalimageloaderlib.utils.L;
 import com.lixue.aibei.universalimageloaderlib.utils.StorageUtils;
 
@@ -104,18 +105,24 @@ public class DefaultConfigurationFactory {
         return cacheDir;
     }
 
+    /**创建内存缓存**/
     public static MemoryCache createMemoryCache(Context context, int memoryCacheSize) {
         if (memoryCacheSize == 0) {
             ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            /**获取剩余内存**/
             int memoryClass = am.getMemoryClass();
+            L.e("剩余内存大小：" + memoryClass);
             if (hasHoneycomb() && isLargeHeap(context)) {
                 memoryClass = getLargeMemoryClass(am);
+                L.e("如果设置了最大堆大小，那么最大剩余缓存大小：" + memoryClass);
             }
+            /**设置最大剩余内存的8分之一最为我们图片缓存的内存缓存大小**/
             memoryCacheSize = 1024 * 1024 * memoryClass / 8;
         }
         return new LruMemoryCache(memoryCacheSize);
     }
 
+    /**android系统版本大于android3.0**/
     private static boolean hasHoneycomb() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
     }
@@ -129,4 +136,18 @@ public class DefaultConfigurationFactory {
     private static int getLargeMemoryClass(ActivityManager am) {
         return am.getLargeMemoryClass();
     }
+    /** UniversalImageLoader的默认实现 */
+//    public static UniversalImageLoader createImageDownloader(Context context) {
+//        return new BaseImageDownloader(context);
+//    }
+
+    /** Creates default implementation of {@link ImageDecoder} - {@link BaseImageDecoder} */
+//    public static ImageDecoder createImageDecoder(boolean loggingEnabled) {
+//        return new BaseImageDecoder(loggingEnabled);
+//    }
+//
+//    /** Creates default implementation of {@link BitmapDisplayer} - {@link SimpleBitmapDisplayer} */
+//    public static BitmapDisplayer createBitmapDisplayer() {
+//        return new SimpleBitmapDisplayer();
+//    }
 }

@@ -1,6 +1,10 @@
 package com.lixue.aibei.universalimageloaderlib.core;
 
+import com.lixue.aibei.universalimageloaderlib.core.listener.ImageLoadingListener;
+import com.lixue.aibei.universalimageloaderlib.core.listener.SimpleImageLoadingListener;
+
 /**
+ * 主入口
  * Created by Administrator on 2016/3/22.
  */
 public class UniversalImageLoader {
@@ -21,7 +25,7 @@ public class UniversalImageLoader {
     private ImageLoaderConfiguration configuration;
     private ImageLoaderEngine engine;
 
-    private ImageLoaderListener defaultListener;
+    private ImageLoadingListener defaultListener = new SimpleImageLoadingListener();
 
     private volatile static UniversalImageLoader instance;
 

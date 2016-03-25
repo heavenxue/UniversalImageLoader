@@ -7,11 +7,13 @@ import com.lixue.aibei.universalimageloaderlib.cache.disc.DiskCache;
 import com.lixue.aibei.universalimageloaderlib.cache.disc.naming.FileNameGenerator;
 import com.lixue.aibei.universalimageloaderlib.cache.memory.Impl.FuzzyKeyMemoryCache;
 import com.lixue.aibei.universalimageloaderlib.cache.memory.MemoryCache;
+import com.lixue.aibei.universalimageloaderlib.core.assist.FlushedInputStream;
 import com.lixue.aibei.universalimageloaderlib.core.assist.QueueProcessingType;
 import com.lixue.aibei.universalimageloaderlib.core.decode.ImageDecoder;
 import com.lixue.aibei.universalimageloaderlib.core.download.ImageDownloader;
 import com.lixue.aibei.universalimageloaderlib.core.process.BitmapProcessor;
 import com.lixue.aibei.universalimageloaderlib.utils.L;
+import com.lixue.aibei.universalimageloaderlib.utils.MemoryCacheUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,25 +30,25 @@ public class ImageLoaderConfiguration {
     final int maxImageWidthForDiskCache;//图像sd卡缓存时最大高度
     final int maxImageHeightForDiskCache;//图像sd卡缓存时最大高度
 
-    final BitmapProcessor processorForDiskCache;
+    final BitmapProcessor processorForDiskCache;//图像处理器
 
-    final Executor taskExecutor;
-    final Executor taskExecutorForCachedImages;
-    final boolean customExecutor;
-    final boolean customExecutorForCachedImages;
+    final Executor taskExecutor; //线程池
+    final Executor taskExecutorForCachedImages;//缓存图像线程池
+    final boolean customExecutor;//是否自定义线程池
+    final boolean customExecutorForCachedImages;//是否自定义缓存线程池
 
-    final int threadPoolSize;
-    final int threadPriority;
-    final QueueProcessingType tasksProcessingType;
+    final int threadPoolSize;//线程池大小
+    final int threadPriority;//线程池优先级
+    final QueueProcessingType tasksProcessingType;//线程队列处理类型
 
-    final MemoryCache memoryCache;
-    final DiskCache diskCache;
-    final ImageDownloader downloader;
-    final ImageDecoder decoder;
-    final DisplayImageOptions defaultDisplayImageOptions;
+    final MemoryCache memoryCache;//内存缓存器
+    final DiskCache diskCache;//sd卡缓存器
+    public final ImageDownloader downloader;//图像加载器
+    public final ImageDecoder decoder;//图像解析器
+    public final DisplayImageOptions defaultDisplayImageOptions;//默认图像显示选项
 
-    final ImageDownloader networkDeniedDownloader;
-    final ImageDownloader slowNetworkDownloader;
+    public final ImageDownloader networkDeniedDownloader;//网络拒绝下载器
+    public final ImageDownloader slowNetworkDownloader;//慢网络下载器
 
     private ImageLoaderConfiguration(final Builder builder) {
         resources = builder.context.getResources();
@@ -76,13 +78,11 @@ public class ImageLoaderConfiguration {
     }
 
     public static class Builder {
-
         private static final String WARNING_OVERLAP_DISK_CACHE_PARAMS = "diskCache(), diskCacheSize() and diskCacheFileCount calls overlap each other";
         private static final String WARNING_OVERLAP_DISK_CACHE_NAME_GENERATOR = "diskCache() and diskCacheFileNameGenerator() calls overlap each other";
         private static final String WARNING_OVERLAP_MEMORY_CACHE = "memoryCache() and memoryCacheSize() calls overlap each other";
         private static final String WARNING_OVERLAP_EXECUTOR = "threadPoolSize(), threadPriority() and tasksProcessingOrder() calls "
                 + "can overlap taskExecutor() and taskExecutorForCachedImages() calls.";
-
         /** 默认线程池大小 */
         public static final int DEFAULT_THREAD_POOL_SIZE = 3;
         /** 默认线程优先级 */
@@ -118,13 +118,11 @@ public class ImageLoaderConfiguration {
         private ImageDownloader downloader = null;
         private ImageDecoder decoder;
         private DisplayImageOptions defaultDisplayImageOptions = null;
-
         private boolean writeLogs = false;
 
         public Builder(Context context) {
             this.context = context.getApplicationContext();
         }
-
         /**
          * 内存缓存选项
          */
@@ -133,7 +131,6 @@ public class ImageLoaderConfiguration {
             this.maxImageHeightForMemoryCache = maxImageHeightForMemoryCache;
             return this;
         }
-
         /**
          * sd卡缓存选项
          */
@@ -142,7 +139,6 @@ public class ImageLoaderConfiguration {
                                              BitmapProcessor processorForDiskCache) {
             return diskCacheExtraOptions(maxImageWidthForDiskCache, maxImageHeightForDiskCache, processorForDiskCache);
         }
-
         /**
          * sd卡缓存选项
          * <b>NOTE: Use this option only when you have appropriate needs. It can make ImageLoader slower.</b>
@@ -154,7 +150,6 @@ public class ImageLoaderConfiguration {
             this.processorForDiskCache = processorForDiskCache;
             return this;
         }
-
         /**
          * 设置显示和加载图像的线程池
          */
@@ -166,7 +161,6 @@ public class ImageLoaderConfiguration {
             this.taskExecutor = executor;
             return this;
         }
-
         /**
          * 设置显示sd卡缓存的图片
          * @see #taskExecutor(Executor)
@@ -178,7 +172,6 @@ public class ImageLoaderConfiguration {
             this.taskExecutorForCachedImages = executorForCachedImages;
             return this;
         }
-
         /**
          * 设置线程池大小
          */
@@ -190,7 +183,6 @@ public class ImageLoaderConfiguration {
             this.threadPoolSize = threadPoolSize;
             return this;
         }
-
         /**
          * 设置线程优先级
          */
@@ -198,7 +190,6 @@ public class ImageLoaderConfiguration {
             if (taskExecutor != null || taskExecutorForCachedImages != null) {
                 L.w(WARNING_OVERLAP_EXECUTOR);
             }
-
             if (threadPriority < Thread.MIN_PRIORITY) {
                 this.threadPriority = Thread.MIN_PRIORITY;
             } else {
@@ -210,7 +201,6 @@ public class ImageLoaderConfiguration {
             }
             return this;
         }
-
         /**
          * 默认的行为是允许在内存中缓存多个大小的一个图像
          * 您可以通过调用此方法来拒绝它：所以当某些图像将缓存在内存中，然后以前的缓存大小（如果它存在）将从内存缓存中删除。
@@ -219,7 +209,6 @@ public class ImageLoaderConfiguration {
             this.denyCacheImageMultipleSizesInMemory = true;
             return this;
         }
-
         /**
          * 设置缓存池中的处理序列
          */
@@ -227,25 +216,20 @@ public class ImageLoaderConfiguration {
             if (taskExecutor != null || taskExecutorForCachedImages != null) {
                 L.w(WARNING_OVERLAP_EXECUTOR);
             }
-
             this.tasksProcessingType = tasksProcessingType;
             return this;
         }
-
         /**
          * 设置缓存大小
          */
         public Builder memoryCacheSize(int memoryCacheSize) {
             if (memoryCacheSize <= 0) throw new IllegalArgumentException("memoryCacheSize must be a positive number");
-
             if (memoryCache != null) {
                 L.w(WARNING_OVERLAP_MEMORY_CACHE);
             }
-
             this.memoryCacheSize = memoryCacheSize;
             return this;
         }
-
         /**
          * 设置缓存占所有可用缓存的大小百分比，得到可用缓存大小
          */
@@ -253,16 +237,13 @@ public class ImageLoaderConfiguration {
             if (availableMemoryPercent <= 0 || availableMemoryPercent >= 100) {
                 throw new IllegalArgumentException("availableMemoryPercent must be in range (0 < % < 100)");
             }
-
             if (memoryCache != null) {
                 L.w(WARNING_OVERLAP_MEMORY_CACHE);
             }
-
             long availableMemory = Runtime.getRuntime().maxMemory();
             memoryCacheSize = (int) (availableMemory * (availableMemoryPercent / 100f));
             return this;
         }
-
         /**
          * 设置缓存
          */
@@ -270,17 +251,9 @@ public class ImageLoaderConfiguration {
             if (memoryCacheSize != 0) {
                 L.w(WARNING_OVERLAP_MEMORY_CACHE);
             }
-
             this.memoryCache = memoryCache;
             return this;
         }
-
-        /**设置sd卡缓存大小 */
-        @Deprecated
-        public Builder discCacheSize(int maxCacheSize) {
-            return diskCacheSize(maxCacheSize);
-        }
-
         /**
          * 设置sd卡缓存大小
          * By default: disk cache is unlimited.<br />
@@ -298,13 +271,6 @@ public class ImageLoaderConfiguration {
             this.diskCacheSize = maxCacheSize;
             return this;
         }
-
-        /** @deprecated Use {@link #diskCacheFileCount(int)} instead */
-        @Deprecated
-        public Builder discCacheFileCount(int maxFileCount) {
-            return diskCacheFileCount(maxFileCount);
-        }
-
         /**
          * 设置sd卡缓存目录中最大的文件数量
          * By default: disk cache is unlimited.<br />
@@ -318,7 +284,6 @@ public class ImageLoaderConfiguration {
             if (diskCache != null) {
                 L.w(WARNING_OVERLAP_DISK_CACHE_PARAMS);
             }
-
             this.diskCacheFileCount = maxFileCount;
             return this;
         }
@@ -341,12 +306,6 @@ public class ImageLoaderConfiguration {
             this.diskCacheFileNameGenerator = fileNameGenerator;
             return this;
         }
-
-        @Deprecated
-        public Builder discCache(DiskCache diskCache) {
-            return diskCache(diskCache);
-        }
-
         /**
          * 设置sd卡缓存器<br />
          * Default value - UnlimitedDiskCache.
@@ -379,7 +338,6 @@ public class ImageLoaderConfiguration {
             this.downloader = imageDownloader;
             return this;
         }
-
         /**
          * 设置图像解码器.<br />
          * Default value -DefaultConfigurationFactory.createImageDecoder()}
@@ -388,7 +346,6 @@ public class ImageLoaderConfiguration {
             this.decoder = imageDecoder;
             return this;
         }
-
         /**
          * 设置图像显示选项
          */
@@ -396,7 +353,6 @@ public class ImageLoaderConfiguration {
             this.defaultDisplayImageOptions = defaultDisplayImageOptions;
             return this;
         }
-
         /**
          * 开启详细日志
          */
@@ -427,13 +383,13 @@ public class ImageLoaderConfiguration {
                 if (diskCacheFileNameGenerator == null) {
                     diskCacheFileNameGenerator = DefaultConfigurationFactory.createFileNameGenerator();
                 }
-                diskCache = DefaultConfigurationFactory .createDiskCache(context, diskCacheFileNameGenerator, diskCacheSize, diskCacheFileCount);
+                diskCache = DefaultConfigurationFactory.createDiskCache(context, diskCacheFileNameGenerator, diskCacheSize, diskCacheFileCount);
             }
             if (memoryCache == null) {
                 memoryCache = DefaultConfigurationFactory.createMemoryCache(context, memoryCacheSize);
             }
             if (denyCacheImageMultipleSizesInMemory) {
-                memoryCache = new FuzzyKeyMemoryCache(memoryCache, MemoryCacheUtils.createFuzzyKeyComparator());
+                memoryCache = new FuzzyKeyMemoryCache(memoryCache, MemoryCacheUtils.createFuzzkeyComparator());
             }
             if (downloader == null) {
                 downloader = DefaultConfigurationFactory.createImageDownloader(context);
@@ -446,21 +402,15 @@ public class ImageLoaderConfiguration {
             }
         }
     }
+
     /**
-     * Decorator. Prevents downloads from network (throws {@link IllegalStateException exception}).<br />
-     * In most cases this downloader shouldn't be used directly.
-     *
-     * @author Sergey Tarasevich (nostra13[at]gmail[dot]com)
-     * @since 1.8.0
+     * 网络拒绝下载后产生的异常下载器
      */
     private static class NetworkDeniedImageDownloader implements ImageDownloader {
-
         private final ImageDownloader wrappedDownloader;
-
         public NetworkDeniedImageDownloader(ImageDownloader wrappedDownloader) {
             this.wrappedDownloader = wrappedDownloader;
         }
-
         @Override
         public InputStream getStream(String imageUri, Object extra) throws IOException {
             switch (Scheme.ofUri(imageUri)) {

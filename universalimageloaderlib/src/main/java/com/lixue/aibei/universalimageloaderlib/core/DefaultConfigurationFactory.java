@@ -15,7 +15,12 @@ import com.lixue.aibei.universalimageloaderlib.cache.memory.Impl.LruMemoryCache;
 import com.lixue.aibei.universalimageloaderlib.cache.memory.MemoryCache;
 import com.lixue.aibei.universalimageloaderlib.core.assist.QueueProcessingType;
 import com.lixue.aibei.universalimageloaderlib.core.assist.deque.LIFOLinkBlockingDeque;
+import com.lixue.aibei.universalimageloaderlib.core.decode.BaseImageDecoder;
 import com.lixue.aibei.universalimageloaderlib.core.decode.ImageDecoder;
+import com.lixue.aibei.universalimageloaderlib.core.display.BitmapDisplayer;
+import com.lixue.aibei.universalimageloaderlib.core.display.SimpleBitmapDisplayer;
+import com.lixue.aibei.universalimageloaderlib.core.download.BaseImageDownloader;
+import com.lixue.aibei.universalimageloaderlib.core.download.ImageDownloader;
 import com.lixue.aibei.universalimageloaderlib.utils.L;
 import com.lixue.aibei.universalimageloaderlib.utils.StorageUtils;
 
@@ -36,7 +41,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class DefaultConfigurationFactory {
     /**文件名生成器**/
-    public static FileNameGenerator FileNameGenerator(){
+    public static FileNameGenerator createFileNameGenerator(){
         return new HashCodeFileNameGenerator();
     }
 
@@ -136,18 +141,18 @@ public class DefaultConfigurationFactory {
     private static int getLargeMemoryClass(ActivityManager am) {
         return am.getLargeMemoryClass();
     }
-    /** UniversalImageLoader的默认实现 */
-//    public static UniversalImageLoader createImageDownloader(Context context) {
-//        return new BaseImageDownloader(context);
-//    }
+    /** 创建图像下载器 */
+    public static ImageDownloader createImageDownloader(Context context) {
+        return new BaseImageDownloader(context);
+    }
 
-    /** Creates default implementation of {@link ImageDecoder} - {@link BaseImageDecoder} */
-//    public static ImageDecoder createImageDecoder(boolean loggingEnabled) {
-//        return new BaseImageDecoder(loggingEnabled);
-//    }
-//
-//    /** Creates default implementation of {@link BitmapDisplayer} - {@link SimpleBitmapDisplayer} */
-//    public static BitmapDisplayer createBitmapDisplayer() {
-//        return new SimpleBitmapDisplayer();
-//    }
+    /**创建图像解析器 */
+    public static ImageDecoder createImageDecoder(boolean loggingEnabled) {
+        return new BaseImageDecoder(loggingEnabled);
+    }
+
+    /**创建图像显示器 */
+    public static BitmapDisplayer createBitmapDisplayer() {
+        return new SimpleBitmapDisplayer();
+    }
 }

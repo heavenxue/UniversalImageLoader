@@ -2,12 +2,14 @@ package com.lixue.aibei.universalimageloaderlib.core;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.DisplayMetrics;
 
 import com.lixue.aibei.universalimageloaderlib.cache.disc.DiskCache;
 import com.lixue.aibei.universalimageloaderlib.cache.disc.naming.FileNameGenerator;
 import com.lixue.aibei.universalimageloaderlib.cache.memory.Impl.FuzzyKeyMemoryCache;
 import com.lixue.aibei.universalimageloaderlib.cache.memory.MemoryCache;
 import com.lixue.aibei.universalimageloaderlib.core.assist.FlushedInputStream;
+import com.lixue.aibei.universalimageloaderlib.core.assist.ImageSize;
 import com.lixue.aibei.universalimageloaderlib.core.assist.QueueProcessingType;
 import com.lixue.aibei.universalimageloaderlib.core.decode.ImageDecoder;
 import com.lixue.aibei.universalimageloaderlib.core.download.ImageDownloader;
@@ -75,6 +77,25 @@ public class ImageLoaderConfiguration {
         slowNetworkDownloader = new SlowNetworkImageDownloader(downloader);
 
         L.writeDebugLogs(builder.writeLogs);
+    }
+
+    /**创建默认的ImageLoader的配置**/
+    public static ImageLoaderConfiguration createDefault(Context context){
+        return new Builder(context).build();
+    }
+
+    /**如果没有设置图像的大小，那么以屏幕的最大宽高为宽高**/
+    ImageSize getMaxImageSize(){
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        int width = maxImageWidthForMemoryCache;
+        if (width < 0){
+            width = metrics.widthPixels;
+        }
+        int height = maxImageHeightForMemoryCache;
+        if (height < 0){
+            height = metrics.heightPixels;
+        }
+        return new ImageSize(width,height);
     }
 
     public static class Builder {

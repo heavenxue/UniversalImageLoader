@@ -39,7 +39,7 @@ public abstract class BaseDiskCache implements DiskCache {
     }
 
     public BaseDiskCache(File cacheDir,File reserveCacheDir){
-        this(cacheDir,reserveCacheDir, DefaultConfigurationFactory.FileNameGenerator());
+        this(cacheDir,reserveCacheDir, DefaultConfigurationFactory.createFileNameGenerator());
     }
 
     public BaseDiskCache(File cacheDir,File reserveCacheDir,FileNameGenerator fileNameGenerator){

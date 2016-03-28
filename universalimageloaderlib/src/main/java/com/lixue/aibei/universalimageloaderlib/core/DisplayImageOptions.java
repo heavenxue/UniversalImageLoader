@@ -147,7 +147,7 @@ public final class DisplayImageOptions {
         return isSyncLoading;
     }
 
-    private static class Builder{
+    public static class Builder{
         private int imageResOnLoading = 0;//图像加载时图像资源
         private int imageResForEmptyUri = 0;//图像为空时图像资源
         private int imageResOnFail = 0;//图像加载失败时图像资源

@@ -23,11 +23,11 @@ public class LimitedAgeDiskCache extends BaseDiskCache {
     private final Map<File, Long> loadingDates = Collections.synchronizedMap(new HashMap<File, Long>());
 
     public LimitedAgeDiskCache(File cacheDir,long maxFileAge) {
-        this(cacheDir,null, DefaultConfigurationFactory.FileNameGenerator(),maxFileAge);
+        this(cacheDir,null, DefaultConfigurationFactory.createFileNameGenerator(),maxFileAge);
     }
 
     public LimitedAgeDiskCache(File cacheDir, File reserveCacheDir,long maxFileAge) {
-        this(cacheDir,reserveCacheDir,DefaultConfigurationFactory.FileNameGenerator(),maxFileAge);
+        this(cacheDir,reserveCacheDir,DefaultConfigurationFactory.createFileNameGenerator(),maxFileAge);
     }
 
     public LimitedAgeDiskCache(File cacheDir, File reserveCacheDir, FileNameGenerator fileNameGenerator,long maxFileAge) {

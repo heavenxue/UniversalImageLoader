@@ -1,6 +1,7 @@
 package com.lixue.aibei.universalimageloaderlib.core;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -223,6 +224,12 @@ public final class DisplayImageOptions {
 
         public Builder imageScaleType(ImageScaleType scaleType){
             this.imageScaleType = scaleType;
+            return this;
+        }
+
+        public Builder bitmapConfig(Bitmap.Config bitmapConfig) {
+            if (bitmapConfig == null) throw new IllegalArgumentException("bitmapConfig can't be null");
+            decodingOptions.inPreferredConfig = bitmapConfig;
             return this;
         }
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.lixue.aibei.slidingtitlebar.MainActivity">
+    <com.lixue.aibei.slidingtitlebarlib.SlidingTabScript
+        android:id="@+id/slidingTabScript"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:allowWidthFull = "true"
+        app:slidingBlock = "@drawable/image_sliding_block"
+        app:disableViewPager = "false"
+        app:disableTensileSlidingBlock = "false"
+        android:fillViewport="false">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView style="@style/text_slidingTabTitle" android:text="list"></TextView>
+            <TextView style="@style/text_slidingTabTitle" android:text="grid"></TextView>
+
+        </LinearLayout>
+    </com.lixue.aibei.slidingtitlebarlib.SlidingTabScript>
+    <android.support.v4.view.ViewPager
+        android:layout_below="@id/slidingTabScript"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewpager"
+        >
+    </android.support.v4.view.ViewPager>
+</RelativeLayout>

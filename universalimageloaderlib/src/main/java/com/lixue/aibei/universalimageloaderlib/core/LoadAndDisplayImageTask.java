@@ -299,7 +299,7 @@ public final class LoadAndDisplayImageTask implements Runnable,IoUtils.CopyListe
     }
 
     public String getLoadingUri(){
-        return null;
+        return uri;
     }
 
     /**执行线程任务**/
@@ -427,8 +427,16 @@ public final class LoadAndDisplayImageTask implements Runnable,IoUtils.CopyListe
     class TaskCancelledException extends Exception {
     }
 
-    public ImageDownloader getDownloader() {
-        return downloader;
+    public ImageDownloader getDownloader(){
+        ImageDownloader d;
+        if (engine.isNetworkDenied()) {
+            d = networkDeniedDownloader;
+        } else if (engine.isSlowNetwork()) {
+            d = slowNetworkDownloader;
+        } else {
+            d = downloader;
+        }
+        return d;
     }
 
 }

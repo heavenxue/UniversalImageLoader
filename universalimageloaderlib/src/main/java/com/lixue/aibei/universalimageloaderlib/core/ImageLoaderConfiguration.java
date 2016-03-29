@@ -88,11 +88,11 @@ public class ImageLoaderConfiguration {
     ImageSize getMaxImageSize(){
         DisplayMetrics metrics = resources.getDisplayMetrics();
         int width = maxImageWidthForMemoryCache;
-        if (width < 0){
+        if (width <= 0){
             width = metrics.widthPixels;
         }
         int height = maxImageHeightForMemoryCache;
-        if (height < 0){
+        if (height <= 0){
             height = metrics.heightPixels;
         }
         return new ImageSize(width,height);

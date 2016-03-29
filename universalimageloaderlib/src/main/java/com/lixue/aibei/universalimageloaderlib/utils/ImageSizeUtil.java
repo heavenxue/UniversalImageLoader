@@ -51,7 +51,11 @@ public final class ImageSizeUtil {
                         scale *= 2;
                     }
                 }else{
-                    scale = Math.max(srcWidth / targetWidth,srcHeight / targetHeight);// max
+                    if (targetWidth > 0 || targetHeight > 0){
+                        scale = Math.max(srcWidth / targetWidth,srcHeight / targetHeight);// max
+                    }else {
+                        scale = 1;
+                    }
                 }
                 break;
             case CROP:
@@ -62,7 +66,11 @@ public final class ImageSizeUtil {
                         scale *= 2;
                     }
                 } else {
-                    scale = Math.min(srcWidth / targetWidth, srcHeight / targetHeight); // min
+                    if (targetWidth > 0 || targetHeight > 0){
+                        scale = Math.min(srcWidth / targetWidth, srcHeight / targetHeight); // min
+                    }else {
+                        scale = 1;
+                    }
                 }
                 break;
         }

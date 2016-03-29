@@ -15,6 +15,10 @@ public class IoUtils {
     public static final int CONTINUE_LOADING_PRECENTAGE = 75;
     IoUtils(){}
 
+    public static boolean copyStream(InputStream is, OutputStream os, CopyListener listener) throws IOException {
+        return copyStream(is, os, listener, DEFAULT_BUFFER_SIZE);
+    }
+
     /**复制流，通过侦听器发射事件查看进度，也可以被侦听器中断。**/
     public static boolean copyStream(InputStream is, OutputStream os, CopyListener listener, int bufferSize) throws IOException {
         int total = is.available();
@@ -23,7 +27,7 @@ public class IoUtils {
         int current = 0;
         int count;
         if (shouldStopLoading(listener, current, total)) return false;
-        while ((count = is.read(bytes,current,total)) != -1){
+        while ((count = is.read(bytes,0,bufferSize)) != -1){
             os.write(bytes,0,count);
             current += count;
             if (shouldStopLoading(listener, current, total)) return false;

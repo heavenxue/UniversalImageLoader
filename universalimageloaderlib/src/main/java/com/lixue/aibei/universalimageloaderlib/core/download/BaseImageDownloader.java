@@ -29,7 +29,7 @@ import java.net.URL;
  * Created by Administrator on 2016/3/24.
  */
 public class BaseImageDownloader implements ImageDownloader {
-    public static final int DEFULT_HTTP_CONNECT_TIMEOUT = 5 * 1000;//milliseconds
+    public static final int DEFULT_HTTP_CONNECT_TIMEOUT = 10 * 1000;//milliseconds
     public static final int DEFULT_HTTP_READ_TIMEOUT = 20 * 1000;
 
     protected static final int BUFFER_SIZE = 32 * 1024;//32KB

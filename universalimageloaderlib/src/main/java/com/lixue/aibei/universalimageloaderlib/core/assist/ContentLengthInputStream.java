@@ -39,6 +39,7 @@ public class ContentLengthInputStream extends InputStream {
     public int read(byte[] buffer) throws IOException {
         return inputStream.read(buffer);
     }
+
     @Override
     public int read(byte[] buffer, int byteOffset, int byteCount) throws IOException {
         return inputStream.read(buffer, byteOffset, byteCount);

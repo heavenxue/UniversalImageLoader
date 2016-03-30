@@ -1,8 +1,8 @@
  
 UniversalImageLoader
 ====================
-  UniversalImageLoader的目的是提供一个功能强大，灵活且大小可以定制的图像加载器缓存和显示。
-  它提供了大量的配置选项和良好的控制的图像加载和缓存过程。
+  UniversalImageLoader的目的是提供一个功能强大，灵活且大小可以定制的图像加载器缓存和显示。</br>
+  它提供了大量的配置选项和良好的控制的图像加载和缓存过程。</br>
  ![](https://github.com/heavenxue/UniversalImageLoader/raw/master/doc/show.png)
  ![](https://github.com/heavenxue/UniversalImageLoader/raw/master/doc/show2.png)
   

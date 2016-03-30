@@ -1,77 +1,91 @@
-针对中文,演示Markdown的各种语法
+ 
+UniversalImageLoader
+====================
+  UniversalImageLoader的目的是提供一个功能强大，灵活且大小可以定制的图像加载器缓存和显示。
+  它提供了大量的配置选项和良好的控制的图像加载和缓存过程。
+ ![](https://github.com/heavenxue/UniversalImageLoader/raw/master/doc/grid.png)
+ ![](https://github.com/heavenxue/UniversalImageLoader/raw/master/doc/list.png)
+ ![](https://github.com/heavenxue/UniversalImageLoader/raw/master/doc/show.png)
+ ![](https://github.com/heavenxue/UniversalImageLoader/raw/master/doc/show2.png)
   
-大标题
-===================================
-  大标题一般显示工程名,类似html的\<h1\><br />
-  你只要在标题下面跟上=====即可
-
-  
-中标题
------------------------------------
-  中标题一般显示重点项,类似html的\<h2\><br />
-  你只要在标题下面输入------即可
-  
-### 小标题
-  小标题类似html的\<h3\><br />
-  小标题的格式如下 ### 小标题<br />
-  注意#和标题字符中间要有空格
-
-### 注意!!!下面所有语法的提示我都先用小标题提醒了!!! 
-
-### 单行文本框
-	这是一个单行的文本框,只要两个Tab再输入文字即可
-        
-### 多行文本框  
-    这是一个有多行的文本框
-    你可以写入代码等,每行文字只要输入两个Tab再输入文字即可
-    这里你可以输入一段代码
-
-### 比如我们可以在多行文本框里输入一段代码,来一个Java版本的HelloWorld吧
-    public class HelloWorld {
-
-      /**
-      * @param args
-	    */
-	    public static void main(String[] args) {
-		    System.out.println("HelloWorld!");
-
-	    }
-
-    }
-### 链接
-1.[点击这里你可以链接到www.google.com](http://www.google.com)<br />
-2.[点击这里我你可以链接到我的博客](http://guoyunsky.iteye.com)<br />
-
-###只是显示图片
-![github](http://github.com/unicorn.png "github")
-
-###想点击某个图片进入一个网页,比如我想点击github的icorn然后再进入www.github.com
-[![image]](http://www.github.com/)
-[image]: http://github.com/github.png "github"
-
-### 文字被些字符包围
-> 文字被些字符包围
->
-> 只要再文字前面加上>空格即可
->
-> 如果你要换行的话,新起一行,输入>空格即可,后面不接文字
-> 但> 只能放在行首才有效
-
-### 文字被些字符包围,多重包围
-> 文字被些字符包围开始
->
-> > 只要再文字前面加上>空格即可
->
->  > > 如果你要换行的话,新起一行,输入>空格即可,后面不接文字
->
-> > > > 但> 只能放在行首才有效
-
-### 特殊字符处理
-有一些特殊字符如<,#等,只要在特殊字符前面加上转义字符\即可<br />
-你想换行的话其实可以直接用html标签\<br /\>
-
-
-
-* 在行首加点
-行首输入*，空格后输入内容即可
+特点
+---
+  * 多线程加载图像（异步或同步）
+  * 广泛的定制UniversalImageLoader的配置（线程的执行者，下载器、解码器、内存和磁盘缓存，显示图像选项，等）
+  * 可以自定义每个显示图像（存根图像、缓存转换、解码选项、图像处理和显示等）
+  * 内存和/或磁盘上的图像缓存（设备的文件系统或SD卡）
+  * 监听加载过程（包括下载进度）
+  * 支持安卓2 +
+  * 支持显示动画图片
     
+### 使用
+  1、依赖：
+    compile 'com.lixue.aibei.universalimageloaderlib:universalimageloaderlib:1.0'
+  2、清单
+    <manifest>
+        <!-- Include following permission if you load images from Internet -->
+        <uses-permission android:name="android.permission.INTERNET" />
+        <!-- Include following permission if you want to cache images on SD card -->
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        ...
+    </manifest>
+  3、初始化
+     ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                ...
+                .build();
+            ImageLoader.getInstance().init(config);
+
+### UniversalImageLoader的配置
+
+    // DON'T COPY THIS CODE TO YOUR PROJECT! This is just example of ALL options using.
+    // See the sample project how to use ImageLoader correctly.
+    File cacheDir = StorageUtils.getCacheDirectory(context);
+    ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+            .memoryCacheExtraOptions(480, 800) // default = device screen dimensions
+            .diskCacheExtraOptions(480, 800, null)
+            .taskExecutor(...)
+            .taskExecutorForCachedImages(...)
+            .threadPoolSize(3) // default
+            .threadPriority(Thread.NORM_PRIORITY - 2) // default
+            .tasksProcessingOrder(QueueProcessingType.FIFO) // default
+            .denyCacheImageMultipleSizesInMemory()
+            .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+            .memoryCacheSize(2 * 1024 * 1024)
+            .memoryCacheSizePercentage(13) // default
+            .diskCache(new UnlimitedDiskCache(cacheDir)) // default
+            .diskCacheSize(50 * 1024 * 1024)
+            .diskCacheFileCount(100)
+            .diskCacheFileNameGenerator(new HashCodeFileNameGenerator()) // default
+            .imageDownloader(new BaseImageDownloader(context)) // default
+            .imageDecoder(new BaseImageDecoder()) // default
+            .defaultDisplayImageOptions(DisplayImageOptions.createSimple()) // default
+            .writeDebugLogs()
+            .build();
+
+### 显示选项
+
+    DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
+            .showImageForEmptyUri(R.drawable.ic_empty) // resource or drawable
+            .showImageOnFail(R.drawable.ic_error) // resource or drawable
+            .resetViewBeforeLoading(false)  // default
+            .delayBeforeLoading(1000)
+            .cacheInMemory(false) // default
+            .cacheOnDisk(false) // default
+            .preProcessor(...)
+            .postProcessor(...)
+            .extraForDownloader(...)
+            .considerExifParams(false) // default
+            .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2) // default
+            .bitmapConfig(Bitmap.Config.ARGB_8888) // default
+            .decodingOptions(...)
+            .displayer(new SimpleBitmapDisplayer()) // default
+            .handler(new Handler()) // default
+            .build();
+        
+### 实现逻辑流程图
+![](https://github.com/heavenxue/UniversalImageLoader/raw/master/doc/UIL_Flow.png)
+
+### 鸣谢
+![](https://github.com/nostra13/Android-Universal-Image-Loader)
+   

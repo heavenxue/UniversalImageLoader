@@ -6,6 +6,11 @@ package com.lixue.aibei.universalimageloader;
  */
 public class Constants {
     public static final String[] IMAGES = new String[] {
+            //动画
+            "http://img3.3lian.com/2006/013/10/20060107213343990.gif",
+            "http://img.bimg.126.net/photo/HUdMpl4aCIYcqxvLk5b8uw==/3970767496474339282.jpg",
+            "http://img237.ph.126.net/L_C2JYXFB2zq1bCQoQg-tQ==/1373034936395940121.gif",
+            "http://img.ui.cn/data/file/0/6/9/53960.gif?imageView2/2/q/90",
             // Heavy images
             "https://lh6.googleusercontent.com/-55osAWw3x0Q/URquUtcFr5I/AAAAAAAAAbs/rWlj1RUKrYI/s1024/A%252520Photographer.jpg",
             "https://lh4.googleusercontent.com/--dq8niRp7W4/URquVgmXvgI/AAAAAAAAAbs/-gnuLQfNnBA/s1024/A%252520Song%252520of%252520Ice%252520and%252520Fire.jpg",

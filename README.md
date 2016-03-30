@@ -3,8 +3,6 @@ UniversalImageLoader
 ====================
   UniversalImageLoader的目的是提供一个功能强大，灵活且大小可以定制的图像加载器缓存和显示。
   它提供了大量的配置选项和良好的控制的图像加载和缓存过程。
- ![](https://github.com/heavenxue/UniversalImageLoader/raw/master/doc/grid.png)
- ![](https://github.com/heavenxue/UniversalImageLoader/raw/master/doc/list.png)
  ![](https://github.com/heavenxue/UniversalImageLoader/raw/master/doc/show.png)
  ![](https://github.com/heavenxue/UniversalImageLoader/raw/master/doc/show2.png)
   
@@ -87,5 +85,5 @@ UniversalImageLoader
 ![](https://github.com/heavenxue/UniversalImageLoader/raw/master/doc/UIL_Flow.png)
 
 ### 鸣谢
-[](https://github.com/nostra13/Android-Universal-Image-Loader)<br />
+[这里](https://github.com/nostra13/Android-Universal-Image-Loader)<br />
    

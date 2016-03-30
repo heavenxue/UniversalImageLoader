@@ -87,5 +87,5 @@ UniversalImageLoader
 ![](https://github.com/heavenxue/UniversalImageLoader/raw/master/doc/UIL_Flow.png)
 
 ### 鸣谢
-![](https://github.com/nostra13/Android-Universal-Image-Loader)
+[](https://github.com/nostra13/Android-Universal-Image-Loader)<br />
    

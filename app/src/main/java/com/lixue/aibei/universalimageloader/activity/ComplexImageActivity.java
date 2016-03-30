@@ -6,8 +6,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.lixue.aibei.slidingtitlebarlib.SlidingTabScript;
 import com.lixue.aibei.universalimageloader.R;
@@ -63,16 +61,6 @@ public class ComplexImageActivity extends FragmentActivity {
                 default:
                     return null;
             }
-        }
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-//        super.destroyItem(container, position, object);
-            container.removeView((View) object);
         }
     }
 }

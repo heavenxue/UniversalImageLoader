@@ -32,7 +32,7 @@ compile 'com.lixue.aibei.universalimageloaderlib:universalimageloaderlib:1.0'
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 ...
 </manifest>
-```java
+```
  
   3、初始化
   
@@ -42,7 +42,7 @@ ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
     ...
     .build();
 ImageLoader.getInstance().init(config);
-```java
+```
 
 ### UniversalImageLoader的配置
 
@@ -71,7 +71,7 @@ ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
 .defaultDisplayImageOptions(DisplayImageOptions.createSimple()) // default
 .writeDebugLogs()
 .build();
-```java
+```
 
 ### 显示选项
 
@@ -94,7 +94,7 @@ DisplayImageOptions options = new DisplayImageOptions.Builder()
     .displayer(new SimpleBitmapDisplayer()) // default
     .handler(new Handler()) // default
     .build();
-```java        
+```       
 
 ### 实现逻辑流程图
 

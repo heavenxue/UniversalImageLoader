@@ -128,4 +128,5 @@ public class ImageDecodingInfo {
     public BitmapFactory.Options getDecodingOptions() {
         return decodingOptions;
     }
+
 }

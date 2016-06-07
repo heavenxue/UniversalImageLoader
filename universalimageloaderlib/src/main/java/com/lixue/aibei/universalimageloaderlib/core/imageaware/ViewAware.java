@@ -114,13 +114,13 @@ public abstract class ViewAware implements ImageAware{
     }
 
     /**
-     * Should set drawable into incoming view. Incoming view is guaranteed not null.<br />
+     * Should set drawable into incoming view. Incoming view is guaranteed not null.
      * This method is called on UI thread.
      */
     protected abstract void setImageDrawableInto(Drawable drawable, View view);
 
     /**
-     * Should set Bitmap into incoming view. Incoming view is guaranteed not null.< br />
+     * Should set Bitmap into incoming view. Incoming view is guaranteed not null.
      * This method is called on UI thread.
      */
     protected abstract void setImageBitmapInto(Bitmap bitmap, View view);

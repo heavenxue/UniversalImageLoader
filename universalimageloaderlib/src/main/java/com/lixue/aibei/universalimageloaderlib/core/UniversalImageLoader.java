@@ -299,14 +299,14 @@ public class UniversalImageLoader {
     }
 
     /**
-     * Denies or allows ImageLoader to download images from the network.<br />
+     * Denies or allows ImageLoader to download images from the network.
      */
     public void denyNetworkDownloads(boolean denyNetworkDownloads) {
         engine.denyNetworkDownloads(denyNetworkDownloads);
     }
 
     /**
-     * href="http://code.google.com/p/android/issues/detail?id=6066">this known problem</a> or not.
+     * href="http://code.google.com/p/android/issues/detail?id=6066"this known problem or not.
      */
     public void handleSlowNetwork(boolean handleSlowNetwork) {
         engine.handleSlowNetwork(handleSlowNetwork);
@@ -319,7 +319,7 @@ public class UniversalImageLoader {
         engine.pause();
     }
 
-    /** Resumes waiting "load&display" tasks */
+
     public void resume() {
         engine.resume();
     }

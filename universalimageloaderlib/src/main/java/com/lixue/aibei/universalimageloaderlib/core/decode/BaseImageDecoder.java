@@ -38,6 +38,7 @@ public class BaseImageDecoder implements ImageDecoder {
         Bitmap decodeBmp = null;
         ImageFileInfo imageInfo;
         InputStream stream = getImageStream(imageDecodingInfo);
+
         if (stream == null){
             L.e(ERROR_NO_IMAGE_STREAM,imageDecodingInfo.getImageKey());
             return null;
@@ -212,4 +213,5 @@ public class BaseImageDecoder implements ImageDecoder {
             this.exif = exif;
         }
     }
+
 }

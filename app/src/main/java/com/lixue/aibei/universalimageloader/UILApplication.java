@@ -32,12 +32,13 @@ public class UILApplication extends Application {
         //  ImageLoaderConfiguration.createDefault(this);
         // method.
         ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
-        config.threadPriority(Thread.NORM_PRIORITY - 2);
-        config.denyCacheImageMultipleSizesInMemory();
-        config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
+        config.threadPriority(Thread.NORM_PRIORITY - 2);//线程优先级3
+        config.denyCacheImageMultipleSizesInMemory();//不缓存多个大小的图像
+        config.diskCacheFileNameGenerator(new Md5FileNameGenerator());//缓存文件名
         config.diskCacheSize(50 * 1024 * 1024); // 50 MiB
-        config.tasksProcessingOrder(QueueProcessingType.LIFO);
+        config.tasksProcessingOrder(QueueProcessingType.LIFO);//按照先进先出队列处理线程
         config.writeDebugLogs(); // Remove for release app
+        config.isDecodeGif(true);
 
         // Initialize ImageLoader with configuration.
         UniversalImageLoader.getInstance().init(config.build());

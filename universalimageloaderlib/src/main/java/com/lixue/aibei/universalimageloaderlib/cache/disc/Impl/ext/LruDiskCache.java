@@ -17,11 +17,11 @@ import java.io.OutputStream;
  * Created by Administrator on 2016/3/22.
  */
 public class LruDiskCache implements DiskCache {
-    /** {@value */
+
     public static final int DEFAULT_BUFFER_SIZE = 32 * 1024; // 32 Kb
-    /** {@value */
+
     public static final Bitmap.CompressFormat DEFAULT_COMPRESS_FORMAT = Bitmap.CompressFormat.PNG;
-    /** {@value */
+
     public static final int DEFAULT_COMPRESS_QUALITY = 100;
 
     private static final String ERROR_ARG_NULL = " argument must be not null";

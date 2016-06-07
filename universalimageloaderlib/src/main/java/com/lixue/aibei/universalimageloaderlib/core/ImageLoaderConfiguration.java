@@ -51,6 +51,7 @@ public class ImageLoaderConfiguration {
 
     public final ImageDownloader networkDeniedDownloader;//网络拒绝下载器
     public final ImageDownloader slowNetworkDownloader;//慢网络下载器
+    public final boolean isDecodeGif;//是否解码Gif动画
 
     private ImageLoaderConfiguration(final Builder builder) {
         resources = builder.context.getResources();
@@ -69,7 +70,7 @@ public class ImageLoaderConfiguration {
         defaultDisplayImageOptions = builder.defaultDisplayImageOptions;
         downloader = builder.downloader;
         decoder = builder.decoder;
-
+        isDecodeGif = builder.isDecodeGif;
         customExecutor = builder.customExecutor;
         customExecutorForCachedImages = builder.customExecutorForCachedImages;
 
@@ -140,6 +141,7 @@ public class ImageLoaderConfiguration {
         private ImageDecoder decoder;
         private DisplayImageOptions defaultDisplayImageOptions = null;
         private boolean writeLogs = false;
+        private boolean isDecodeGif = false;
 
         public Builder(Context context) {
             this.context = context.getApplicationContext();
@@ -277,7 +279,7 @@ public class ImageLoaderConfiguration {
         }
         /**
          * 设置sd卡缓存大小
-         * By default: disk cache is unlimited.<br />
+         * By default: disk cache is unlimited.
          * <b>NOTE:</b> If you use this method then LruDiskCache will be used as disk cache.
          * You can use {@link #diskCache(DiskCache)} method for introduction your own
          * implementation of {@link DiskCache}
@@ -294,7 +296,7 @@ public class ImageLoaderConfiguration {
         }
         /**
          * 设置sd卡缓存目录中最大的文件数量
-         * By default: disk cache is unlimited.<br />
+         * By default: disk cache is unlimited.
          * <b>NOTE:</b> If you use this method then LruDiskCache  will be used as disk cache.
          * You can use {@link #diskCache(DiskCache)} method for introduction your own
          * implementation of {@link DiskCache}
@@ -316,7 +318,7 @@ public class ImageLoaderConfiguration {
         }
 
         /**
-         * sd卡缓存文件名生成器.<br />
+         * sd卡缓存文件名生成器.
          * Default value - DefaultConfigurationFactory.createFileNameGenerator()}
          */
         public Builder diskCacheFileNameGenerator(FileNameGenerator fileNameGenerator) {
@@ -328,10 +330,10 @@ public class ImageLoaderConfiguration {
             return this;
         }
         /**
-         * 设置sd卡缓存器<br />
+         * 设置sd卡缓存器
          * Default value - UnlimitedDiskCache.
-         * Cache directory is defined by StorageUtils.getCacheDirectory(Context)}.<br />
-         * <br />
+         * Cache directory is defined by StorageUtils.getCacheDirectory(Context)}.
+         *
          * <b>NOTE:</b> If you set custom disk cache then following configuration option will not be considered:
          * <ul>
          * <li>{@link #diskCacheSize(int)}</li>
@@ -352,7 +354,7 @@ public class ImageLoaderConfiguration {
         }
 
         /**
-         *设置图像下载器.<br />
+         *设置图像下载器.
          * Default value -DefaultConfigurationFactory.createImageDownloader()}
          */
         public Builder imageDownloader(ImageDownloader imageDownloader) {
@@ -360,7 +362,7 @@ public class ImageLoaderConfiguration {
             return this;
         }
         /**
-         * 设置图像解码器.<br />
+         * 设置图像解码器.
          * Default value -DefaultConfigurationFactory.createImageDecoder()}
          */
         public Builder imageDecoder(ImageDecoder imageDecoder) {
@@ -379,6 +381,11 @@ public class ImageLoaderConfiguration {
          */
         public Builder writeDebugLogs() {
             this.writeLogs = true;
+            return this;
+        }
+
+        public Builder isDecodeGif(boolean isDecodeGif){
+            this.isDecodeGif = isDecodeGif;
             return this;
         }
 

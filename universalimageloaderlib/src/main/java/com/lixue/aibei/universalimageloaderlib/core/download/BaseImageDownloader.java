@@ -100,27 +100,28 @@ public class BaseImageDownloader implements ImageDownloader {
     /**通过从文件系统或sd卡中取图片**/
     protected InputStream getStreamFromFile(String imageUri,Object extra) throws IOException {
         String filePath = Scheme.FILE.crop(imageUri);
-        if (isVideoFileUri(imageUri)){
-            return getVideoThumbnailStream(filePath);
-        }else{
+//        if (isVideoFileUri(imageUri)){
+//            return getVideoThumbnailStream(filePath);
+//        }else{
             BufferedInputStream stream = new BufferedInputStream(new FileInputStream(filePath),BUFFER_SIZE);
             return new ContentLengthInputStream(stream,(int)new File(filePath).length());
-        }
+//        }
     }
 
     /**从ContentResover中获得图片**/
     protected InputStream getStreamFromContent(String imageUri,Object extra) throws FileNotFoundException {
         ContentResolver res = context.getContentResolver();
         Uri uri = Uri.parse(imageUri);
-        if (isVideoContentUri(uri)){//如果是视频文件
-            Long origId = Long.valueOf(uri.getLastPathSegment());//最后路径
-            Bitmap bitmap = MediaStore.Video.Thumbnails.getThumbnail(res, origId, MediaStore.Images.Thumbnails.MINI_KIND, null);
-            if (bitmap != null){
-                ByteArrayOutputStream bom = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG,0,bom);//图像压缩
-                return new ByteArrayInputStream(bom.toByteArray());
-            }
-        }else if(imageUri.startsWith(CONECT_CONTACTS_URI_PREFIX)){//contants系统 photo
+//        if (isVideoContentUri(uri)){//如果是视频文件
+//            Long origId = Long.valueOf(uri.getLastPathSegment());//最后路径
+//            Bitmap bitmap = MediaStore.Video.Thumbnails.getThumbnail(res, origId, MediaStore.Images.Thumbnails.MINI_KIND, null);
+//            if (bitmap != null){
+//                ByteArrayOutputStream bom = new ByteArrayOutputStream();
+//                bitmap.compress(Bitmap.CompressFormat.PNG,0,bom);//图像压缩
+//                return new ByteArrayInputStream(bom.toByteArray());
+//            }
+//        }else
+        if(imageUri.startsWith(CONECT_CONTACTS_URI_PREFIX)){//contants系统 photo
             return getContactPhotoStream(uri);
         }
         return res.openInputStream(uri);

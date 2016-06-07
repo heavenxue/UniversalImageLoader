@@ -23,13 +23,14 @@ UniversalImageLoader
 compile 'com.lixue.aibei.universalimageloaderlib:universalimageloaderlib:1.0'
 ```
   2、清单
+  
 ```java
 <manifest>
-    <!-- Include following permission if you load images from Internet -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Include following permission if you want to cache images on SD card -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    ...
+<!-- Include following permission if you load images from Internet -->
+<uses-permission android:name="android.permission.INTERNET" />
+<!-- Include following permission if you want to cache images on SD card -->
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+...
 </manifest>
 ```java
  
@@ -38,12 +39,13 @@ compile 'com.lixue.aibei.universalimageloaderlib:universalimageloaderlib:1.0'
   
 ```java
 ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-        ...
-        .build();
-    ImageLoader.getInstance().init(config);
+    ...
+    .build();
+ImageLoader.getInstance().init(config);
 ```java
 
 ### UniversalImageLoader的配置
+
 ```java
 // DON'T COPY THIS CODE TO YOUR PROJECT! This is just example of ALL options using.
 // See the sample project how to use ImageLoader correctly.
@@ -72,6 +74,7 @@ ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
 ```java
 
 ### 显示选项
+
 ```java
 DisplayImageOptions options = new DisplayImageOptions.Builder()
     .showImageOnLoading(R.drawable.ic_stub) // resource or drawable
